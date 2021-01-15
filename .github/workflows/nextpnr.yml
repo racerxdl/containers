@@ -47,15 +47,12 @@ jobs:
     - run: dockerBuild nextpnr:icestorm   nextpnr icestorm
     - run: dockerBuild nextpnr:ecp5       nextpnr ecp5
     - run: dockerBuild nextpnr:prjtrellis nextpnr prjtrellis
-    - run: dockerBuild nextpnr:gowin      nextpnr gowin
-    - run: dockerBuild nextpnr:apicula    nextpnr apicula
     - run: dockerBuild nextpnr            nextpnr
 
     - run: dockerTest nextpnr:ice40
     - run: dockerTest nextpnr:icestorm
     - run: dockerTest nextpnr:ecp5
     - run: dockerTest nextpnr:prjtrellis
-    - run: dockerTest nextpnr:gowin
     - run: dockerTest nextpnr
 
     - name: Login to DockerHub
@@ -75,9 +72,6 @@ jobs:
       if: github.event_name != 'pull_request' && github.repository == 'hdl/containers'
 
     - run: dockerPush nextpnr:prjtrellis
-      if: github.event_name != 'pull_request' && github.repository == 'hdl/containers'
-
-    - run: dockerPush nextpnr:gowin
       if: github.event_name != 'pull_request' && github.repository == 'hdl/containers'
 
     - run: dockerPush nextpnr
