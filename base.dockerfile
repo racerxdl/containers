@@ -24,6 +24,7 @@ RUN apt-get update -qq \
     ca-certificates \
     curl \
     python3 \
+    python3-setuptools \
  && apt-get autoclean && apt-get clean && apt-get -y autoremove \
  && update-ca-certificates \
  && rm -rf /var/lib/apt/lists/*

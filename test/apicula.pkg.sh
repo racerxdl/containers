@@ -2,6 +2,7 @@
 
 # Authors:
 #   Unai Martinez-Corral
+#   Lucas Teske
 #
 # Copyright 2020-2021 Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
 #
@@ -23,6 +24,6 @@ set -e
 
 cd $(dirname "$0")
 
-./_tree.sh
+tree /
 
 ./_todo.sh

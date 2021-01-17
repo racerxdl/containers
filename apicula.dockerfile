@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:experimental
 # Authors:
 #   Unai Martinez-Corral
 #   Lucas Teske
@@ -21,20 +22,23 @@
 FROM hdlc/build:build AS build
 
 RUN apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends python3-setuptools python3-pip
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends wget
 
-RUN mkdir /tmp/apicula \
- && cd /tmp/apicula \
- && pip3 install apycula --target /tmp/apicula
+RUN mkdir /opt/apicula \
+ && wget https://files.pythonhosted.org/packages/1a/d6/b3162f87ff114d639095fe7c0655080ee16caff9037d6629f738d8b28d92/Apycula-0.0.1a6.tar.gz \
+ && tar -xvf Apycula-0.0.1a6.tar.gz --strip-components=1 -C /opt/apicula \
+ && ls -lah /opt/apicula
 
 #---
 
 FROM scratch AS pkg
-COPY --from=build /tmp/apicula /apicula
+COPY --from=build /opt/apicula /apicula
 
 #---
 
 FROM hdlc/build:base
-RUN apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends python3-setuptools python3-pip \
- && pip3 install apycula
+
+RUN --mount=type=cache,from=build,src=/opt/apicula,target=/opt/apicula cd /opt/apicula \
+ && python3 setup.py install \
+ && rm -rf ~/.cache
+
